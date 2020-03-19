@@ -14,7 +14,12 @@ type mockAgrest struct {
 }
 
 func StartMocking() *mockAgrest {
-	mockClient := mockAgrest{}
+	mockClient := mockAgrest{
+		request: make(map[string]map[string]*http.Request),
+		path:    make(map[string]*http.Request),
+		method:  make(map[string]*http.Request),
+		all:     nil,
+	}
 
 	client = &mockClient
 	return &mockClient
@@ -63,5 +68,9 @@ func (m *mockAgrest) MockPath(req *http.Request) {
 }
 
 func (m *mockAgrest) MockRequest(req *http.Request) {
+	if m.request[req.Method] == nil {
+		m.request[req.Method] = map[string]*http.Request{}
+	}
+
 	m.request[req.Method][req.URL.Path] = req
 }

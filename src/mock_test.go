@@ -130,3 +130,77 @@ func TestMockAgrest_Do(t *testing.T) {
 		})
 	}
 }
+
+func Test_mockAgrest_MockMethod(t *testing.T) {
+	type args struct {
+		req *http.Request
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			"Adding Method to mock",
+			args{&http.Request{
+				Method: http.MethodPost,
+			}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := StartMocking()
+			m.MockMethod(tt.args.req)
+		})
+	}
+}
+
+func Test_mockAgrest_MockPath(t *testing.T) {
+	type args struct {
+		req *http.Request
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			"Adding Path to mock",
+			args{&http.Request{
+				URL: &url.URL{
+					Path: "/",
+				},
+			}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := StartMocking()
+			m.MockPath(tt.args.req)
+		})
+	}
+}
+
+func Test_mockAgrest_MockRequest(t *testing.T) {
+	type args struct {
+		req *http.Request
+	}
+	tests := []struct {
+		name string
+		args args
+	}{
+		{
+			"Adding request to mock",
+			args{&http.Request{
+				Method: http.MethodOptions,
+				URL: &url.URL{
+					Path: "/",
+				},
+			}},
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			m := StartMocking()
+			m.MockRequest(tt.args.req)
+		})
+	}
+}

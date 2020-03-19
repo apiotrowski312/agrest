@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	req, err := getReq()
+	req, err := postReq()
 
 	if err != nil {
 		fmt.Println(err)
@@ -17,11 +17,13 @@ func main() {
 	}
 }
 
-func getReq() (*http.Response, error) {
+func postReq() (*http.Response, error) {
 	Client := agrest.CreateClient()
 	Client.SetBaseURL("http://google.com")
 
-	req, err := Client.Get("/").Do()
+	req, err := Client.Post("/").AddStringBody("test text", "text/plain").SetHeaders(&http.Header{
+		"X-Test": []string{"True"},
+	}).Do()
 
 	if err != nil {
 		return nil, err
